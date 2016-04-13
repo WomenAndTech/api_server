@@ -7,10 +7,11 @@ var timestamps = require('mongoose-timestamp');
 var PostSchema = new Schema({
   title: String,
   body: String,
-  isDraft: {type: Boolean, default: true}
+  isDraft: {type: Boolean, default: true},
+  settings: [{name: String, value: Schema.Types.Mixed}]
 });
 
-PostSchema.methods.toJSON = SchemaMethods.toJSON;
+// PostSchema.methods.toJSON = SchemaMethods.toJSON;
 
 PostSchema.plugin(timestamps);
 

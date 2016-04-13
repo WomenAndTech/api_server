@@ -1,5 +1,11 @@
 # Manaloop Node.JS API server
 
+## Config files
+You will need to include the following environment variables:
+
+- ```API_SECURITY_SALT``` a long ass random string to be used for security things...
+- ```WAAT_DATABASE``` The Mongo DB URI
+
 ## Server setup
 
 - OS: Ubuntu 14.04

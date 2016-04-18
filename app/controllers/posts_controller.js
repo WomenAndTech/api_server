@@ -33,6 +33,7 @@ module.exports = {
   },
 
   create: function(req, res) {
+    console.log(req.body);
     Post.create(req.body.post, function(err, post){
       if(err) throw(err);
 

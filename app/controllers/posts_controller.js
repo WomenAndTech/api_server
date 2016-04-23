@@ -26,10 +26,8 @@ module.exports = {
   show: function(req, res) {
     Post.findById(req.params.id).exec()
     .then(function(post){
-      console.log(post);
       return res.json({post});
     }, function(err) {
-      console.log(err);
       return res.status(404).json({
         message: "No post found."
       });

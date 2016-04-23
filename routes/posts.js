@@ -10,7 +10,7 @@ router.post('/', PostsController.create);
 router.get('/', PostsController.index);
 
 // show a single/particular post with :id
-router.get('/:id', PostsController.index);
+router.get('/:id', PostsController.show);
 
 // update a particular post
 router.put('/:id', PostsController.update);

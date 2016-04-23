@@ -3,7 +3,13 @@ var Post = mongoose.model('Post');
 
 module.exports = {
   index: function(req, res) {
-    Post.find().exec(function(err, posts){
+    var query = Post.find()
+
+    if(req.query.type) {
+      query.where({type: req.query.type});
+    }
+
+    query.exec(function(err, posts){
       if(err) throw err;
 
       if(posts) {
@@ -18,17 +24,15 @@ module.exports = {
   },
 
   show: function(req, res) {
-    Post.find(req.post_id).exec(function(err, post){
-      if(err) throw(err);
-
-      if(post){
-        return res.json({post});
-      }
-      else {
-        return res.status(404).json({
-          message: "No post found."
-        });
-      }
+    Post.findById(req.params.id).exec()
+    .then(function(post){
+      console.log(post);
+      return res.json({post});
+    }, function(err) {
+      console.log(err);
+      return res.status(404).json({
+        message: "No post found."
+      });
     });
   },
 

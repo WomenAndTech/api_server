@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Post = mongoose.model('Post');
 var User = mongoose.model('User');
 
 var passport = require('passport');

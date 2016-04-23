@@ -3,7 +3,7 @@ var app = express();
 var cors = require('cors');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var token = require('./authentication_token');
+var authorizer = require('./authorizer.js');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../app/models/user');
@@ -32,7 +32,7 @@ app.use(function(req, res, next){
   }
 });
 
-app.use("/", token);
+app.use("/", authorizer);
 
 app.use(passport.initialize());
 

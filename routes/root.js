@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.json({
     success: true,
-    message: "Welcome to the Manaloop API.  Please see our documentation at https://developers.manaloop.com."
+    message: "Welcome to the Women&&Tech API server.  Please see our documentation at https://developers.womenandtech.com."
   });
 });
 

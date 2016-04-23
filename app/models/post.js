@@ -13,7 +13,7 @@ var PostSchema = new Schema({
   title: String,
   body: String,
   isDraft: {type: Boolean, default: true},
-  type: String,
+  type: {type: String, default: 'post'},
   meta: [MetaSchema]
 });
 

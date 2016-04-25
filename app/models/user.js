@@ -12,6 +12,7 @@ var UserSchema = new Schema({
   usernameLowercase: {type: String, required: true, unique: true, trim: true},
   bio: {type: String},
   location: {type: String},
+  role: {type: String},
   admin: {type: Boolean, default: false}
 });
 

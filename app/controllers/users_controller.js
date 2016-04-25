@@ -55,12 +55,19 @@ module.exports = {
       });
     }
     else {
-      return res.status(404).json({
-        success: false,
-        response: {
-          message: "User not found"
-        }
-      });
+      User.find().select('firstname lastname username').exec().then(function(users){
+        return res.json({
+          users
+        });
+
+      }, function(){
+        return res.status(404).json({
+          success: false,
+          response: {
+            message: "No Users"
+          }
+        });
+      })
     }
   },
 

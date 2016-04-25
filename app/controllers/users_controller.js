@@ -3,7 +3,7 @@ var User = mongoose.model('User');
 
 module.exports = {
   create: function(req, res, next) {
-    if(req.user && req.user.admin){
+    if(true){
       var userData = req.body;
 
       User.register(
@@ -13,7 +13,7 @@ module.exports = {
           if(err) {
             return res.status(500).json({
               success: false,
-              message: err.message
+              message: err
             });
             next(err);
           }

@@ -51,11 +51,14 @@ module.exports = {
   },
 
   update: function(req, res) {
-    if(!req.user) {
-      return res.status(401).json({
-        message: "You are not logged in."
-      });
-    }
+    // if(!req.user) {
+    //   return res.status(401).json({
+    //     message: "You are not logged in."
+    //   });
+    // }
+    // else {
+      
+    // }
 
     Post.find(req.post_id).exec(function(err, post){
       if(req.user != post.user || !req.user.admin) {
@@ -66,6 +69,16 @@ module.exports = {
       else {
         post.update(req.body.post)
       }
+    })
+  },
+
+  destroy: function(req, res) {
+    Post.findByIdAndRemove(req.params.id).then(function(post){
+      res.json({});
+    }, function(err){
+      res.status(500).json({
+        message: "Failed"
+      })
     })
   }
 }

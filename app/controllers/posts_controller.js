@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Post = mongoose.model('Post');
 
+
 module.exports = {
   latest: function(req, res) {
     var query = Post.findOne().where({status: "published"}).sort({createdAt: -1});
@@ -27,6 +28,7 @@ module.exports = {
   },
   index: function(req, res) {
     var query = Post.find().sort({createdAt: -1})
+
     // If a user is not logged in - only display published posts
     if(!req.user) {
       query.where({status: "published"})
@@ -52,6 +54,7 @@ module.exports = {
 
   show: function(req, res) {
     var query = Post.findById(req.params.id)
+
     // If a user is not logged in - only display published posts
     if(!req.user) {
       query.where({status: "published"})

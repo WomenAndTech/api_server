@@ -1,9 +1,25 @@
 var mongoose = require('mongoose');
 var Post = mongoose.model('Post');
 
+
 module.exports = {
+  latest: function(req, res) {
+    var query = Post.findOne().sort({createdAt: -1});
+
+    if(req.query.type) {
+      query.where({type: req.query.type});
+    }
+
+    query.exec().then(function(post){
+      return res.json({posts: [post]});
+    }, function(err){
+      return res.status(404).json({
+        message: "No posts."
+      });
+    });
+  },
   index: function(req, res) {
-    var query = Post.find()
+    var query = Post.find().sort({createdAt: -1})
 
     if(req.query.type) {
       query.where({type: req.query.type});
@@ -35,7 +51,6 @@ module.exports = {
   },
 
   create: function(req, res) {
-    console.log(req.body);
     Post.create(req.body.post, function(err, post){
       if(err) throw(err);
 
@@ -51,25 +66,22 @@ module.exports = {
   },
 
   update: function(req, res) {
-    // if(!req.user) {
-    //   return res.status(401).json({
-    //     message: "You are not logged in."
-    //   });
-    // }
-    // else {
-      
-    // }
+    if(req.user && req.user.admin) {
+      Post.findByIdAndUpdate(req.params.id, {$set: req.body.post}, function(err, post){
+        if(err){
+          console.log(err);
+          return res.status(500);
+        };
 
-    Post.find(req.post_id).exec(function(err, post){
-      if(req.user != post.user || !req.user.admin) {
-        return res.status(401).json({
-          message: "You are not authorized to modify this post!"
-        });
-      }
-      else {
-        post.update(req.body.post)
-      }
-    })
+        return res.status(200).json({post});
+      });      
+    }
+    else {
+      return res.status(401).json({
+        message: "You are not logged in."
+      });
+    }
+
   },
 
   destroy: function(req, res) {

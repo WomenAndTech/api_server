@@ -44,18 +44,20 @@ module.exports = {
   },
 
   index: function(req, res) {
+    var query = User.find().sort('firstname')
+
     if(req.query.username) {
       return this.show(req, res);
     }
 
     if(req.user && req.user.admin) {
-      User.find().exec(function(err, users){
+      query.exec(function(err, users){
         if(err) throw err;
-        return res.json(users);
+        return res.json({users});
       });
     }
     else {
-      User.find().select('firstname lastname username').exec().then(function(users){
+      query.select('firstname lastname username').exec().then(function(users){
         return res.json({
           users
         });

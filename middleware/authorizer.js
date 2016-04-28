@@ -9,7 +9,7 @@ var maxAge = "20 days";
 
 app.use(function(req, res, next){
   var authentication_token = req.headers['X-Authentication-Token'] || req.headers['x-authentication-token'] || req.body['X-Authentication-Token'] || req.body['x-authentication-token'] || null;
-  
+
   if(!authentication_token){
     next();
   }

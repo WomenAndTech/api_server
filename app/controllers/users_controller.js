@@ -4,11 +4,11 @@ var User = mongoose.model('User');
 module.exports = {
   create: function(req, res, next) {
     if(req.user && req.user.admin){
-      var userData = req.body;
+      var userData = req.body.user;
 
       User.register(
         new User(userData),
-        req.body.password,
+        userData.password,
         function(err, user){
           if(err) {
             return res.status(500).json({
@@ -28,8 +28,7 @@ module.exports = {
             return res.json({
               success: true,
               response: {
-                message: "User account created successfully.  An email has been sent to your account.",
-                token: AuthenticationToken.generate(user)
+                message: "User account created successfully.  An email has been sent to your account."
               }
             })
           }
@@ -161,6 +160,22 @@ module.exports = {
           message: "Unauthorized."
         }
       })
+    }
+  },
+  destroy: function(req, res){
+    if(req.user && (req.user.admin || req.user.id == req.params.user_id)) {
+      User.findByIdAndRemove(req.params.user_id, function(err, user){
+        if(err) {
+          return res.status(500).json({
+            message: "Could not remove user"
+          });
+        }
+        else {
+          return res.json({
+            user
+          });
+        }
+      });
     }
   }
 }

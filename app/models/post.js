@@ -12,6 +12,8 @@ var MetaSchema = new Schema({
 var PostSchema = new Schema({
   title: String,
   body: String,
+  status: {type: String, default: "draft"},
+  publishedAt: {type: Date},
   isDraft: {type: Boolean, default: true},
   type: {type: String, default: 'post'},
   meta: [MetaSchema]

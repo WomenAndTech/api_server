@@ -4,7 +4,7 @@ var Post = mongoose.model('Post');
 
 module.exports = {
   latest: function(req, res) {
-    var query = Post.findOne().where({isDraft: false}).sort({createdAt: -1});
+    var query = Post.findOne().where({status: "published"}).sort({createdAt: -1});
 
     if(req.query.type) {
       query.where({type: req.query.type});
@@ -31,7 +31,7 @@ module.exports = {
 
     // If a user is not logged in - only display published posts
     if(!req.user) {
-      query.where({isDraft: false})
+      query.where({status: "published"})
     }
 
     if(req.query.type) {
@@ -57,12 +57,19 @@ module.exports = {
 
     // If a user is not logged in - only display published posts
     if(!req.user) {
-      query.where({isDraft: false})
+      query.where({status: "published"})
     }
 
     query.exec()
     .then(function(post){
-      return res.json({post});
+      if(post) {
+        return res.json({post});
+      }
+      else {
+        return res.status(404).json({
+          message: "No post found."
+        });
+      }
     }, function(err) {
       return res.status(404).json({
         message: "No post found."

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Post = mongoose.model('Post');
 
+
 module.exports = {
   latest: function(req, res) {
     var query = Post.findOne().where({status: "published"}).sort({createdAt: -1});
